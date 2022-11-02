@@ -3,23 +3,23 @@
 #include "node.hpp"
 #include "graph.hpp"
 
+void leer();
+
 int main (int argc, char **argv) {
 	graph *g = new graph (std::atoi (argv[1]), std::atoi (argv[2]));
 	bool stop = false;
 	int option = ' ';
-	char v1 = ' ', v2 = ' ';
+	char NArchivo;
 	float w = 0;
 	float **m;
 	do {
-		std::cout << "Opciones: [1. Vértice | 2. Arco | 3. Imprimir | 4. Matriz | 5. Anchura | 6. Salir]: ";
+		std::cout << "Opciones:\n 1. Vértice \n2. Arco \n3. Imprimir \n4. Matriz \n5. Salir";
 		std::cin >> option;
 
 		switch (option) {
 			case 1:
-				std::cout << "Nombre del nuevo vértice: ";
-				std::cin >> v1;
-				if (g->seekV (v1) == nullptr)
-					g->insertVertex (new node (v1));
+				std::cout << "Nombre del archivo que desea cargar: ";
+				std::cin >> NArchivo;
 				break;
 			case 2:
 				std::cout << "Nombre del vértice 1: ";
@@ -46,11 +46,6 @@ int main (int argc, char **argv) {
 					}
 				break;
 			case 5:
-				std::cout << "Nombre del vértice de partida: ";
-				std::cin >> v1;
-				g->width (v1);
-				break;
-			case 6:
 				stop = true;
 				break;
 			default:
@@ -58,4 +53,40 @@ int main (int argc, char **argv) {
 				break;
 		}
 	} while (!stop);
+}
+
+void leer(){
+	ifstream archivo;
+	char texto;
+	char* total;
+	int count = 0;
+
+	archivo.open("example.txt", ios::in); //Abre archivos
+
+	if (archivo.fail()){
+		cout << "No se puede abrir el archivo";
+		exit(1);
+	} else {
+		archivo.seekg(0, std::ios_base::end);
+		int size = archivo.tellg ();
+		archivo.seekg(0);
+		cout << "File size" << size << endl;
+		total = new char[size];
+	}
+
+	while (!archivo.eof()){
+		texto = archivo.get();
+		
+		if (!archivo.failbit) {
+			cout << "No se leyó" << endl;
+		} else {
+			cout << "Caracter: " << texto << endl;
+		}
+		
+		int auxC = 0;
+		total[count++] = texto;
+	}
+	
+	total[count] = '\0';
+	cout << total << endl;
 }
